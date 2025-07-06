@@ -1,0 +1,287 @@
+[
+  {
+    "id": 1,
+    "name": "Organic Apples",
+    "images": [
+      "../src/assets/chilly1.png",
+      "../src/assets/chilly2.png",
+      "../src/assets/chilly3.png",
+      "../src/assets/chilly4.png"
+    ],
+    "category": "Fruits",
+    "price": 4.99,
+    "offerPrice": 3.49,
+    "rating": 4,
+    "description": [
+      "Freshly picked from organic farms",
+      "Rich in fiber and vitamins",
+      "Perfect for a healthy snack"
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Almond Milk",
+    "images": [
+        "../src/assets/chilly1.png",
+      "../src/assets/chilly2.png",
+      "../src/assets/chilly3.png",
+      "../src/assets/chilly4.png"
+    ],
+    "category": "Dairy & Eggs",
+    "price": 5.99,
+    "offerPrice": 4.99,
+    "rating": 5,
+    "description": [
+      "Lactose-free and vegan friendly",
+      "Rich in calcium and vitamin D",
+      "Perfect for smoothies and coffee"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Whole Wheat Bread",
+    "images": [
+        "../src/assets/chilly1.png",
+      "../src/assets/chilly3.png",
+      "../src/assets/chilly4.png",
+      "../src/assets/chilly2.png"
+    ],
+    "category": "Bakery",
+    "price": 2.99,
+    "offerPrice": 2.49,
+    "rating": 4,
+    "description": [
+      "Made with 100% whole grains",
+      "Soft, fluffy, and delicious",
+      "No added preservatives"
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Brown Rice",
+    "images": [
+        "../src/assets/chilly1.png",
+      "../src/assets/chilly4.png",
+      "../src/assets/chilly3.png",
+      "../src/assets/chilly2.png"
+    ],
+    "category": "Grains",
+    "price": 3.99,
+    "offerPrice": 3.19,
+    "rating": 3,
+    "description": [
+      "High in fiber and nutrients",
+      "Great for healthy meals",
+      "Naturally gluten-free"
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Fresh Bananas",
+    "images": [
+      "../src/assets/chilly1.png",
+      "../src/assets/chilly2.png",
+      "../src/assets/chilly3.png",
+      "../src/assets/chilly4.png"
+    ],
+    "category": "Fruits",
+    "price": 1.29,
+    "offerPrice": 0.99,
+    "rating": 5,
+    "description": [
+      "Naturally sweet and delicious",
+      "Loaded with potassium",
+      "Great as a quick snack"
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Olive Oil",
+    "images": [
+        "../src/assets/chilly1.png",
+      "../src/assets/chilly2.png",
+      "../src/assets/chilly3.png",
+      "../src/assets/chilly4.png"
+    ],
+    "category": "Vegetables",
+    "price": 9.99,
+    "offerPrice": 7.49,
+    "rating": 4.5,
+    "description": [
+      "Cold-pressed extra virgin oil",
+      "Rich flavor for cooking",
+      "Heart-healthy and natural"
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Cheddar Cheese",
+    "images": [
+        "../src/assets/chilly1.png",
+      "../src/assets/chilly3.png",
+      "../src/assets/chilly4.png",
+      "../src/assets/chilly2.png"
+    ],
+    "category": "Dairy & Eggs",
+    "price": 6.49,
+    "offerPrice": 5.19,
+    "rating": 4,
+    "description": [
+      "Aged for bold flavor",
+      "Perfect for sandwiches and snacks",
+      "Made from fresh cow's milk"
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Orange Juice",
+    "images": [
+        "../src/assets/chilly1.png",
+      "../src/assets/chilly4.png",
+      "../src/assets/chilly3.png",
+      "../src/assets/chilly2.png"
+    ],
+    "category": "Snacks & Beverages",
+    "price": 4.59,
+    "offerPrice": 3.89,
+    "rating": 5,
+    "description": [
+      "Freshly squeezed oranges",
+      "No added sugar or preservatives",
+      "Rich in vitamin C"
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Greek Yogurt",
+    "images": [
+      "../src/assets/chilly1.png",
+      "../src/assets/chilly2.png",
+      "../src/assets/chilly3.png",
+      "../src/assets/chilly4.png"
+    ],
+    "category": "Dairy & Eggs",
+    "price": 3.49,
+    "offerPrice": 2.99,
+    "rating": 4,
+    "description": [
+      "Thick and creamy texture",
+      "High in protein",
+      "Perfect for breakfast or dessert"
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Greek Yogurt",
+    "images": [
+      "../src/assets/chilly1.png",
+      "../src/assets/chilly2.png",
+      "../src/assets/chilly3.png",
+      "../src/assets/chilly4.png"
+    ],
+    "category": "Dairy & Eggs",
+    "price": 3.49,
+    "offerPrice": 2.99,
+    "rating": 4,
+    "description": [
+      "Thick and creamy texture",
+      "High in protein",
+      "Perfect for breakfast or dessert"
+    ]
+  },
+  {
+    "id": 11,
+    "name": "Greek Yogurt",
+    "images": [
+      "../src/assets/chilly1.png",
+      "../src/assets/chilly2.png",
+      "../src/assets/chilly3.png",
+      "../src/assets/chilly4.png"
+    ],
+    "category": "Dairy & Eggs",
+    "price": 3.49,
+    "offerPrice": 2.99,
+    "rating": 4,
+    "description": [
+      "Thick and creamy texture",
+      "High in protein",
+      "Perfect for breakfast or dessert"
+    ]
+  },
+  {
+    "id": 12,
+    "name": "Greek Yogurt",
+    "images": [
+      "../src/assets/chilly1.png",
+      "../src/assets/chilly2.png",
+      "../src/assets/chilly3.png",
+      "../src/assets/chilly4.png"
+    ],
+    "category": "Dairy & Eggs",
+    "price": 3.49,
+    "offerPrice": 2.99,
+    "rating": 4,
+    "description": [
+      "Thick and creamy texture",
+      "High in protein",
+      "Perfect for breakfast or dessert"
+    ]
+  },
+  {
+    "id": 13,
+    "name": "Greek Yogurt",
+    "images": [
+      "../src/assets/chilly1.png",
+      "../src/assets/chilly2.png",
+      "../src/assets/chilly3.png",
+      "../src/assets/chilly4.png"
+    ],
+    "category": "Dairy & Eggs",
+    "price": 3.49,
+    "offerPrice": 2.99,
+    "rating": 4,
+    "description": [
+      "Thick and creamy texture",
+      "High in protein",
+      "Perfect for breakfast or dessert"
+    ]
+  },
+  {
+    "id": 14,
+    "name": "Greek Yogurt",
+    "images": [
+      "../src/assets/chilly1.png",
+      "../src/assets/chilly2.png",
+      "../src/assets/chilly3.png",
+      "../src/assets/chilly4.png"
+    ],
+    "category": "Dairy & Eggs",
+    "price": 3.49,
+    "offerPrice": 2.99,
+    "rating": 4,
+    "description": [
+      "Thick and creamy texture",
+      "High in protein",
+      "Perfect for breakfast or dessert"
+    ]
+  },
+  {
+    "id": 15,
+    "name": "Domsticks",
+    "images": [
+        "../src/assets/chilly1.png",
+      "../src/assets/chilly2.png",
+      "../src/assets/chilly3.png",
+      "../src/assets/chilly4.png"
+    ],
+    "category": "Meat & Seafood",
+    "price": 2.79,
+    "offerPrice": 2.29,
+    "rating": 3,
+    "description": [
+      "Classic tomato flavor",
+      "No artificial colors",
+      "Great with burgers and fries"
+    ]
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "name": "Vegetables",
+    "slug": "vegetables",
+    "image": "vegetables.png"
+  },
+  {
+    "id": 2,
+    "name": "Fruits",
+    "slug": "fruits",
+    "image": "vegetables.png"
+  },
+  {
+    "id": 3,
+    "name": "Dairy & Eggs",
+    "slug": "dairy-eggs",
+    "image": "vegetables.png"
+  },
+  {
+    "id": 4,
+    "name": "Bakery",
+    "slug": "bakery",
+    "image": "vegetables.png"
+  },
+  {
+    "id": 5,
+    "name": "Snacks & Beverages",
+    "slug": "snacks-beverages",
+    "image": "vegetables.png"
+  },
+  {
+    "id": 6,
+    "name": "Meat & Seafood",
+    "slug": "meat-seafood",
+    "image": "vegetables.png"
+  }
+]
