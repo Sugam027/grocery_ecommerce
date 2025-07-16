@@ -24,8 +24,8 @@ class userController{
     
             res.cookie('token', token, {
                 httpOnly: true, // prevent js to access
-                secure: process.env.NODE_ENV === 'production', // use secure cookies in production
-                sameSite: process.env.NODE_ENV === 'production' ? 'none': 'strict', // CSRF protection
+                secure: false, // use secure cookies in production
+                sameSite: 'lax', // CSRF protection
                 maxAge: 1 * 24 * 60 * 60 * 1000, // cookie expire time
             })
     
@@ -56,12 +56,12 @@ class userController{
     
                 res.cookie('token', token, {
                     httpOnly: true, // prevent js to access
-                    secure: process.env.NODE_ENV === 'production', // use secure cookies in production
-                    sameSite: process.env.NODE_ENV === 'production' ? 'none': 'strict', // CSRF protection
+                    secure: false, // use secure cookies in production
+                    sameSite: 'lax', // CSRF protection
                     maxAge: 1 * 24 * 60 * 60 * 1000, // cookie expire time
                 })
         
-                return res.json({success:true, user: {email: findData.email, name: findData.name}});
+                return res.json({success:true, user: {email: findData.email, name: findData.name, id: findData._id}});
                 }
             }
         }catch(error){
@@ -97,8 +97,8 @@ class userController{
         try {
             res.clearCookie('token', {
                 httpOnly: true,
-                secure: process.env.NODE_ENV === 'production', // use secure cookies in production
-                sameSite: process.env.NODE_ENV === 'production' ? 'none': 'strict', // CSRF protection
+                secure: false, // use secure cookies in production
+                sameSite: 'lax', // CSRF protection
             });
             return res.json({success: true, message: "Logged out"});
         } catch (error) {

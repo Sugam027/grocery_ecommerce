@@ -8,7 +8,7 @@ const Login = () => {
     const [name, setName] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
-    const {setShowUserLogin, navigate, setUser, axios} = useContextProvider();
+    const {setShowUserLogin, fetchCartFromDB, navigate, setUser, axios} = useContextProvider();
 
     const onSubmitHandler = async (event) => {
     event.preventDefault();
@@ -18,8 +18,10 @@ const Login = () => {
 
             if (data.success) {
                 toast.success("Login successful!");
-                setShowUserLogin(false);
                 setUser(data.user);
+                console.log(data.user);
+                await fetchCartFromDB(data.user.id);
+                setShowUserLogin(false);
                 navigate('/');
             } else {
                 if (typeof data.message === 'object') {
@@ -83,7 +85,7 @@ const Login = () => {
                     <a className="text-sm" href="#">Forgot password?</a>
                 </div>
                 )}
-                <button type="submit" className="mt-2 w-full h-11 rounded-full text-white bg-indigo-500 hover:opacity-90 transition-opacity">
+                <button type="submit" className="mt-2 w-full h-11 rounded-full text-white bg-[#4CB944] hover:opacity-90 transition-opacity">
                     {state === "register" ? "Create Account" : "Login"}
                 </button>
                 {state === "register" ? (

@@ -2,9 +2,11 @@ import {React, useState, useEffect} from 'react'
 import { useContextProvider } from '../../context/AppContext';
 import toast from 'react-hot-toast';
 import API from '../../API';
+import { useNavigate } from 'react-router-dom';
 
 const AdminLogin = () => {
-    const {isAdmin, setIsAdmin, navigate, axios} = useContextProvider()
+    const navigate = useNavigate();
+    const { isAdmin, setIsAdmin} = useContextProvider()
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -13,6 +15,7 @@ const AdminLogin = () => {
             event.preventDefault();
             const {data} = await API.post('/api/admin/login', {email, password})
             if(data.success){
+                localStorage.setItem('isAdmin', 'true');
                 setIsAdmin(true)
                 navigate('/admin')
             }else{
@@ -23,11 +26,6 @@ const AdminLogin = () => {
         }
     }
 
-    useEffect(() =>{
-        if(isAdmin){
-            navigate("/admin");
-        }
-    }, [isAdmin, navigate])
 
     return (
         <div className='fixed top-0 bottom-0 left-0 right-0 z-30 flex items-center text-sm text-gray-600 bg-gray-100'>
@@ -55,7 +53,7 @@ const AdminLogin = () => {
                 <div className="mt-5 text-left text-indigo-500">
                     <a className="text-sm" href="#">Forgot password?</a>
                 </div>
-                <button type="submit" className="mt-2 w-full h-11 rounded-full text-white bg-indigo-500 hover:opacity-90 transition-opacity">
+                <button type="submit" className="mt-2 w-full h-11 rounded-full text-white bg-[#4CB944] hover:opacity-90 transition-opacity">
                     Login
                 </button>
             </form>

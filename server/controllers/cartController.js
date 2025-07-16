@@ -25,44 +25,71 @@ class cartController{
     }
     // update cart
     async update(req, res) {
-  try {
-    const { userId, cartItems } = req.body;
+      try {
+        const { userId, cartItems } = req.body;
+        console.log(userId)
 
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ success: false, message: "User not found" });
-    }
+        const user = await User.findById(userId);
+        if (!user) {
+          return res.status(404).json({ success: false, message: "User not found" });
+        }
 
-    for (const newItem of cartItems) {
-      if (!newItem?.product) continue;
+        for (const newItem of cartItems) {
+          if (!newItem?.product) continue;
 
-      const existingItem = user.cartItems.find(
-        item => item?.product?.toString() === newItem.product
-      );
+          const existingItem = user.cartItems.find(
+            item => item?.product?.toString() === newItem.product
+          );
 
-      if (existingItem) {
-        existingItem.quantity += newItem.quantity;
-      } else {
-        user.cartItems.push({
-          product: newItem.product,
-          quantity: newItem.quantity
+          if (existingItem) {
+            existingItem.quantity += newItem.quantity;
+          } else {
+            user.cartItems.push({
+              product: newItem.product,
+              quantity: newItem.quantity
+            });
+          }
+        }
+        user.cartItems = user.cartItems.filter(item => item.quantity > 0);
+        await user.save();
+
+        res.json({
+          success: true,
+          message: "Cart updated successfully",
+          cartItems: user.cartItems
         });
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: error.message });
       }
     }
 
-    await user.save();
+    async removeItemFromCart(req, res) {
+      try {
+        const { userId, productId } = req.body;
 
-    res.json({
-      success: true,
-      message: "Cart updated successfully",
-      cartItems: user.cartItems
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ success: false, message: error.message });
-  }
-}
+        const user = await User.findById(userId);
+        if (!user) {
+          return res.status(404).json({ success: false, message: "User not found" });
+        }
 
+        // Filter out the product from cartItems
+        user.cartItems = user.cartItems.filter(
+          (item) => item.product.toString() !== productId
+        );
+
+        await user.save();
+
+        res.json({
+          success: true,
+          message: "Product removed from cart",
+          cartItems: user.cartItems,
+        });
+      } catch (error) {
+        console.error("Error removing cart item:", error.message);
+        res.status(500).json({ success: false, message: error.message });
+      }
+    }
 
 
 }

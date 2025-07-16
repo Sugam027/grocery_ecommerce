@@ -13,9 +13,9 @@ const Categories = () => {
                 return (
                     <div key={index} className="relative items-center justify-center text-sm text-white/80 rounded-lg shadow-sm w-45 h-40 bg-[#4CB944]" onClick={() => {navigate(`/products/${category.slug.toLowerCase()}`); scrollTo(0,0);}}>
                         <div className="absolute bottom-2 flex items-center justify-around backdrop-blur-sm w-full max-w-72 rounded bg-white/10 border border-white/20 py-2" >
-                            <p className="text-center">{category.name}</p>
+                            <p className="text-center text-[darkgreen]">{category.name}</p>
                         </div>
-                        <img className="rounded-md" src={`../src/assets/${category.image} `}alt={category.name} />
+                        <img className="rounded-md" src={`${category.image} `}alt={category.name} />
                     </div>
                 )
             })}

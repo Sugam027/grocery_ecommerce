@@ -10,8 +10,8 @@ const SearchResultsPage = () => {
 
   const filtered = products.filter((product) => {
     return (
-      product.name.toLowerCase().includes(query) ||
-      product.category.toLowerCase().includes(query) ||
+      product.name?.toLowerCase().includes(query) ||
+      product.category?.name?.toLowerCase().includes(query) ||
       (product.description?.join(' ').toLowerCase().includes(query))
     );
   });
@@ -26,7 +26,7 @@ const SearchResultsPage = () => {
       ) : (
         <div className="flex gap-4 flex-wrap">
           {filtered.map((product) => (
-            <Card key={product.id} product={product} />
+            <Card key={product._id} product={product} />
           ))}
         </div>
       )}

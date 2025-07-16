@@ -1,13 +1,15 @@
 import {React, useState} from 'react'
 import logo from '../assets/tajaghar_logo.png'
 import { useContextProvider } from '../context/AppContext';
+import API from '../API';
+import toast from 'react-hot-toast';
 
 const Navbar = () => {
     const [open, setOpen] = useState(false);
+    const [userMenuOpen, setUserMenuOpen] = useState(false);
+    const [dropdownOpen, setDropdownOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
-    const { navigate, getCartCount, setShowUserLogin, user } = useContextProvider();
-
-    console.log(user);
+    const { navigate, getCartCount, setCartItems, setShowUserLogin, user, setUser } = useContextProvider();
 
     const handleSearch = (e) => {
     if (e && e.preventDefault) {
@@ -17,6 +19,27 @@ const Navbar = () => {
       navigate(`/search?text=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
+
+    const logoutUser = async() => {
+        try {
+            const {data} = await API.get('/api/user/logout');
+            if(data.success){
+                toast.success('Logged out successfully');
+                setShowUserLogin(false)
+                setUser(false)
+                setCartItems({});
+                navigate('/');
+            }else{
+                toast.error('Logged out failed');
+            }
+        } catch (err) {
+            toast.error('Logged out failed');
+            console.log("fail")
+            console.error("Logout failed", err);
+            navigate('/');
+        }
+    };
+
   return (
     <>
     <nav className="flex items-center justify-between px-4 md:px-12 lg:px-16 xl:px-16 py-4 border-b border-gray-300 bg-white relative transition-all">
@@ -52,17 +75,21 @@ const Navbar = () => {
                 <button className="absolute cursor-pointer -top-2 -right-3 text-xs text-white bg-[#4CB944] w-[18px] h-[18px] rounded-md">{getCartCount()}</button>
             </div>
             {user ? (
-            <div className="relative group cursor-pointer">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#4CB944" viewBox="0 0 24 24">
-                <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v1.2h19.2v-1.2c0-3.2-6.4-4.8-9.6-4.8z" />
-                </svg>
-                {/* Optional dropdown */}
-                <div className="absolute hidden group-hover:flex flex-col bg-white border shadow-md right-0 mt-2 w-32 z-10">
-                <button onClick={() => navigate("/profile")} className="px-4 py-2 hover:bg-gray-100 text-sm text-left">Profile</button>
-                <button onClick={() => navigate("/orders")} className="px-4 py-2 hover:bg-gray-100 text-sm text-left">Orders</button>
-                <button onClick={() => logoutUser()} className="px-4 py-2 hover:bg-gray-100 text-sm text-left text-red-500">Logout</button>
+                <div className="relative group cursor-pointer">
+                    <div onClick={() => setDropdownOpen(!dropdownOpen)}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#4CB944" viewBox="0 0 24 24">
+                        <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v1.2h19.2v-1.2c0-3.2-6.4-4.8-9.6-4.8z" />
+                        </svg>
+                    </div>
+                    {/* Optional dropdown */}
+                    {dropdownOpen && (
+                        <div className="absolute flex flex-col bg-white border shadow-md right-0 mt-2 w-32 z-10">
+                        <button onClick={() => navigate("/profile")} className="px-4 py-2 hover:bg-gray-100 text-sm text-left">Profile</button>
+                        <button onClick={() => navigate("/order")} className="px-4 py-2 hover:bg-gray-100 text-sm text-left">Orders</button>
+                        <button onClick={() => logoutUser()} className="px-4 py-2 hover:bg-gray-100 text-sm text-left text-red-500">Logout</button>
+                        </div>
+                    )}
                 </div>
-            </div>
             
             ) : (
             <button className="cursor-pointer px-8 py-2 bg-[#4CB944] hover:bg-[#417B38] transition text-white rounded-md"  onClick={() => {setShowUserLogin(true)}}>
@@ -85,17 +112,25 @@ const Navbar = () => {
             <div className={`${open ? 'flex' : 'hidden'} absolute top-[60px] left-0 w-full bg-white shadow-md py-4 flex-col items-start gap-2 px-5 text-sm md:hidden`}>
                 <a href="/" className="block">Home</a>
                 <a href="/shop" className="block">Shop</a>
+                <a href="/shop" className="block">Shop</a>
+                <a href="/shop" className="block">Shop</a>
+                <a href="/shop" className="block">Shop</a>
+                <a href="/shop" className="block">Shop</a>
                 {user ? (
                 <div className="relative group cursor-pointer">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#4CB944" viewBox="0 0 24 24">
-                    <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v1.2h19.2v-1.2c0-3.2-6.4-4.8-9.6-4.8z" />
-                    </svg>
-                    {/* Optional dropdown */}
-                    <div className="absolute hidden group-hover:flex flex-col bg-white border shadow-md right-0 mt-2 w-32 z-10">
-                    <button onClick={() => navigate("/profile")} className="px-4 py-2 hover:bg-gray-100 text-sm text-left">Profile</button>
-                    <button onClick={() => navigate("/orders")} className="px-4 py-2 hover:bg-gray-100 text-sm text-left">Orders</button>
-                    <button onClick={() => logoutUser()} className="px-4 py-2 hover:bg-gray-100 text-sm text-left text-red-500">Logout</button>
+                    <div onClick={() => setDropdownOpen(!dropdownOpen)}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#4CB944" viewBox="0 0 24 24">
+                        <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v1.2h19.2v-1.2c0-3.2-6.4-4.8-9.6-4.8z" />
+                        </svg>
                     </div>
+                    {/* Optional dropdown */}
+                    {dropdownOpen && (
+                        <div className="absolute flex flex-col bg-white border shadow-md right-0 mt-2 w-32 z-10">
+                        <button onClick={() => navigate("/profile")} className="px-4 py-2 hover:bg-gray-100 text-sm text-left">Profile</button>
+                        <button onClick={() => navigate("/orders")} className="px-4 py-2 hover:bg-gray-100 text-sm text-left">Orders</button>
+                        <button onClick={() => logoutUser()} className="px-4 py-2 hover:bg-gray-100 text-sm text-left text-red-500">Logout</button>
+                        </div>
+                    )}
                 </div>
                 ) : (
                 <button className="cursor-pointer px-8 py-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-md"  onClick={() => {setShowUserLogin(true)}}>
@@ -109,6 +144,12 @@ const Navbar = () => {
         <div className="flex items-center gap-8">
             <a href="/">Home</a>
             <a href="/shop">Shop</a>
+            <a href="/products/vegetables">Vegetables</a>
+            <a href="/products/fruits">Fruits</a>
+            <a href="/products/bakery-and-dairy">Bakery & Dairy</a>
+            <a href="/products/cooking-oil">Cooking oil</a>
+            <a href="/products/biscuits-and-coolies">Biscuits & Cookies</a>
+            <a href="/products/fruits-juice">Fruits juice</a>
         </div>
     </nav>
     

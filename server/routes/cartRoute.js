@@ -5,9 +5,9 @@ import authUser from "../middlewares/authUser.js";
 const cartRoute = express.Router();
 const cartInstance = new cartController();
 
-cartRoute.post("/update", cartInstance.update);
-cartRoute.get("/:id", cartInstance.showCart);
-
+cartRoute.put("/update", cartInstance.update);
+cartRoute.get("/user/:id", cartInstance.showCart);
+cartRoute.put("/remove", cartInstance.removeItemFromCart);
 
 
 export default cartRoute;

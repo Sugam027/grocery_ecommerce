@@ -23,17 +23,17 @@ const Card = ({ product }) => {
         <div className="border border-gray-500/20 rounded-md mt-4 md:px-4 px-3 py-2 bg-white w-[260px] cursor-pointer p-4 border rounded shadow hover:shadow-md transition" >
         <div className="relative h-40" >
                 <div className="group cursor-pointer flex items-center justify-center px-2">
-                <img className="group-hover:scale-105 transition h-40 object-cover" style={{width: "100%"}} src={product?.images?.[0]} alt={product.name} onClick={() => {navigate(`/product/${product.id}`); scrollTo(0,0);}}/>
+                <img className="group-hover:scale-105 transition h-40 object-cover" style={{width: "100%"}} src={product?.images?.[0]} alt={product.name} onClick={() => {navigate(`/product/${product._id}`); scrollTo(0,0);}}/>
             </div>
-                <span className="absolute top-2 left-2 bg-[#4CB944] text-white text-xs font-bold px-2 py-1 rounded">SALE</span>
+                <span className="absolute top-2 left-2 bg-[#4CB944] text-white text-xs font-bold px-2 py-1 rounded">{product.price > product.offerPrice ? 'SALE' : ""}</span>
                 <button className="absolute top-2 right-2 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition-colors duration-200">
                     <svg className="w-4 h- text-center text-blue-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> </g></svg>
                 </button>
             </div>
             
-            <div className="text-gray-500/60 text-sm">
+            <div className="text-gray-500/60 text-sm mt-2">
             <div className="flex justify-between">
-                <p>{product.category}</p>
+                <p>{product.category.name}</p>
                 <div className="flex items-center gap-0.5">
                     {Array(5).fill('').map((_, i) => (
                         product.rating > i ? (
@@ -50,14 +50,21 @@ const Card = ({ product }) => {
                 </div>
             </div>
                 <p className="text-gray-700 font-medium text-lg truncate w-full">{product.name}</p>
-                <p className='text-gray-500/60 md:text-sm text-xs'>500g</p>
+                <p className='text-gray-500/60 md:text-sm text-xs'>{product.unit}</p>
                 <div className="flex items-end justify-between mt-3">
                     <p className="md:text-xl text-base font-medium text-[#4CB944]">
                         ${product.offerPrice} <span className="text-gray-500/60 md:text-sm text-xs line-through">${product.price}</span>
                     </p>
                     <div className="text-[#4CB944]" onClick={(e) =>{e.stopPropagation();}}>
-                        {!cartItems?.[product.id] ? (
-                            <button className="flex items-center justify-center gap-1 bg-[#E5F1E2] border border-[#E5F1E2] md:w-[80px] w-[64px] h-[34px] rounded text-[#4CB944] font-medium" onClick={() => addToCart(product.id)} >
+                        {!product.inStock ? (
+                        <button
+                            disabled
+                            className="bg-gray-300 text-gray-600 font-medium px-1 h-[34px] rounded cursor-not-allowed"
+                        >
+                            Out of Stock
+                        </button>
+                        ) : !cartItems?.[product._id] ? (
+                            <button className="flex items-center justify-center gap-1 bg-[#E5F1E2] border border-[#E5F1E2] md:w-[80px] w-[64px] h-[34px] rounded text-[#4CB944] font-medium cursor-pointer" onClick={() => addToCart(product._id)} >
                                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M.583.583h2.333l1.564 7.81a1.17 1.17 0 0 0 1.166.94h5.67a1.17 1.17 0 0 0 1.167-.94l.933-4.893H3.5m2.333 8.75a.583.583 0 1 1-1.167 0 .583.583 0 0 1 1.167 0m6.417 0a.583.583 0 1 1-1.167 0 .583.583 0 0 1 1.167 0" stroke="#4CB944" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
@@ -65,11 +72,11 @@ const Card = ({ product }) => {
                             </button>
                         ) : (
                             <div className="flex items-center justify-center gap-2 md:w-20 w-16 h-[34px] bg-[#E5F1E2] rounded select-none">
-                                <button onClick={() => {removeFromCart(product.id); }} className="cursor-pointer text-md px-2 h-full" >
+                                <button onClick={() => {removeFromCart(product._id); }} className="cursor-pointer text-md px-2 h-full" >
                                     -
                                 </button>
-                                <span className="w-5 text-center">{cartItems[product.id]}</span>
-                                <button onClick={() => {addToCart(product.id)}} className="cursor-pointer text-md px-2 h-full" >
+                                <span className="w-5 text-center">{cartItems[product._id]}</span>
+                                <button onClick={() => {addToCart(product._id)}} disabled={cartItems[product._id] >= product.stock} className={`cursor-pointer text-md px-2 h-full ${cartItems[product._id] >= product.stock ? 'opacity-50 cursor-not-allowed' : ''}`} >
                                     +
                                 </button>
                             </div>

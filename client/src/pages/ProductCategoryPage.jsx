@@ -7,8 +7,11 @@ const ProductCategoryPage = () => {
 const { products, categories, navigate } = useContextProvider();
     
     const { slug } = useParams();
+    console.log(slug)
+    console.log(categories)
     const cate = categories.find(cat => cat.slug.toLowerCase() === slug)
-    const matchedCategory = products.filter(p => p.category.toLowerCase() === cate.name.toLowerCase())
+    console.log(cate)
+    const matchedCategory = products.filter(p => p.category.name.toLowerCase() === cate.name.toLowerCase())
   
     return (
     <>

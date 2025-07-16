@@ -7,7 +7,8 @@ const ProductDetails = () => {
     const { products, addToCart, removeFromCart, cartItems, navigate } = useContextProvider();
     
     const { id } = useParams()
-    const product = products.find(p => p.id === parseInt(id))
+    const product = products.find(p => p._id === id)
+
 
     const [thumbnail, setThumbnail] = useState(null);
     const [relatedProducts, setRelatedProducts] = useState([])
@@ -21,13 +22,15 @@ const ProductDetails = () => {
     useEffect(() => {
         if (product && products.length > 0) {
             const related = products
-                .filter(p => p.category === product.category && p.id !== product.id)
+                .filter(p => p.category.name === product.category.name && p._id !== product._id)
                 .slice(0, 5)
             setRelatedProducts(related)
         }
     }, [products, product])
 
     if (!product) return <p>Product not found.</p>
+
+    
 
     
 
@@ -69,26 +72,60 @@ const ProductDetails = () => {
                         </div>
 
                         <div className="mt-6">
-                            <p className="text-gray-500/70 line-through">MRP: ${product.price}</p>
-                            <p className="text-2xl font-medium">MRP: ${product.offerPrice}</p>
+                            <p className="text-gray-500/70 line-through">MRP: Rs. {product.price}</p>
+                            <p className="text-2xl font-medium">MRP: Rs. {product.offerPrice}</p>
                             <span className="text-gray-500/70">(inclusive of all taxes)</span>
                         </div>
+                        <p className='md:text-sm text-xs'>{product.unit}</p>
 
-                        <p className="text-base font-medium mt-6">About Product</p>
-                        <ul className="list-disc ml-4 text-gray-500/70">
-                            {product.description?.map((desc, index) => (
-                                <li key={index}>{desc}</li>
-                            ))}
-                        </ul>
 
-                        <div className="flex items-center mt-10 gap-4 text-base">
-                            <button className="w-full py-3.5 cursor-pointer font-medium bg-gray-100 text-gray-800/80 hover:bg-gray-200 transition" onClick={() => {addToCart(product.id); }}>
-                                Add to Cart
-                            </button>
-                            <button className="w-full py-3.5 cursor-pointer font-medium bg-[#4CB944] text-white hover:bg-[#417B38] transition" >
-                                Buy now
-                            </button>
+                        <p className="text-base font-medium mt-4">About Product</p>
+                        <div className="list-disc text-gray-500/70">
+                        {(product.description && typeof product.description[0] === "string"
+                            ? JSON.parse(product.description[0])
+                            : []
+                        ).map((desc, index) => (
+                            <p key={index} className='mt-2'>{desc}</p>
+                        ))}
                         </div>
+
+                    <div className="mt-10 text-[#4CB944]">
+                    {!product.inStock ? (
+                        <button
+                        disabled
+                        className="bg-gray-300 text-gray-600 font-medium w-full py-3.5 rounded cursor-not-allowed"
+                        >
+                        Out of Stock
+                        </button>
+                    ) : !cartItems?.[product._id] ? (
+                        <button
+                        className="flex items-center justify-center gap-1 bg-[#E5F1E2] border border-[#E5F1E2] w-full py-3.5 rounded text-[#4CB944] font-medium"
+                        onClick={() => addToCart(product._id)}
+                        >
+                        <svg width="18" height="18" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M.583.583h2.333l1.564 7.81a1.17 1.17 0 0 0 1.166.94h5.67a1.17 1.17 0 0 0 1.167-.94l.933-4.893H3.5m2.333 8.75a.583.583 0 1 1-1.167 0 .583.583 0 0 1 1.167 0m6.417 0a.583.583 0 1 1-1.167 0 .583.583 0 0 1 1.167 0" stroke="#4CB944" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                        Add
+                        </button>
+                    ) : (
+                        <div className="flex items-center justify-center gap-2 w-full py-3.5 bg-[#E5F1E2] rounded select-none">
+                        <button
+                            onClick={() => removeFromCart(product._id)}
+                            className="cursor-pointer text-md px-3"
+                        >
+                            -
+                        </button>
+                        <span className="w-6 text-center">{cartItems[product._id]}</span>
+                        <button
+                            onClick={() => addToCart(product._id)}
+                            disabled={cartItems[product._id] >= product.stock}
+                            className={`cursor-pointer text-md px-3 ${cartItems[product._id] >= product.stock ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        >
+                            +
+                        </button>
+                        </div>
+                    )}
+                    </div>
                     </div>
                 </div>
             </div>
@@ -96,9 +133,13 @@ const ProductDetails = () => {
             <section className='category-section mt-4 md:mt-16 px-4 md:px-12 lg:px-16 xl:px-16 py-4'>
                 <p className='text-center text-[32px] font-bold mt-2'><span className='text-[#4CB944]'>Related</span> Products</p>
                 <div className="flex gap-4 flex-wrap mt-6">
-                {relatedProducts.map((p) => (
-                    <Card key={p.id} product={p} />
-                ))}
+                {relatedProducts.length > 0 ? (
+                    relatedProducts.map((p) => (
+                    <Card key={p._id} product={p} />
+                    ))
+                ) : (
+                    <p className="text-gray-500">No related products found.</p>
+                )}
                 </div>
             </section>
         </>

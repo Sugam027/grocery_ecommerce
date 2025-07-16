@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import "dotenv/config";
 
-class userController{
+class adminController{
     // resgister user
     // async register(req, res){
     //     try{
@@ -48,10 +48,13 @@ class userController{
 
                 res.cookie('adminToken', token, {
                     httpOnly: true, // prevent js to access
-                    secure: process.env.NODE_ENV === 'production', // use secure cookies in production
-                    sameSite: process.env.NODE_ENV === 'production' ? 'none': 'strict', // CSRF protection
+                    secure: false, 
+                    sameSite: 'lax', 
+                    // secure: process.env.NODE_ENV === 'production', // use secure cookies in production
+                    // sameSite: process.env.NODE_ENV === 'production' ? 'none': 'strict', // CSRF protection
                     maxAge: 1 * 24 * 60 * 60 * 1000, // cookie expire time
                 })
+
 
                 return res.json({success:true, message: "logged in"});
             }else{
@@ -77,8 +80,8 @@ class userController{
         try {
             res.clearCookie('adminToken', {
                 httpOnly: true,
-                secure: process.env.NODE_ENV === 'production', // use secure cookies in production
-                sameSite: process.env.NODE_ENV === 'production' ? 'none': 'strict', // CSRF protection
+                secure: false, // use secure cookies in production
+                sameSite: 'lax', // CSRF protection
             });
             return res.json({success: true, message: "Logged out"});
         } catch (error) {
@@ -89,4 +92,4 @@ class userController{
 
 }
 
-export default userController;
+export default adminController;

@@ -8,7 +8,8 @@ const productRoute = express.Router();
 const productInstance = new productController();
 
 productRoute.get("/", productInstance.index);
-productRoute.post("/", upload.array(["images"]), productInstance.store);
+productRoute.post("/store", upload.array(["images"]), productInstance.store);
+productRoute.put("/update/:id", upload.array(["images"]), productInstance.update);
 productRoute.get("/:id", productInstance.productById);
 productRoute.post("/stock", authAdmin, productInstance.changeStock);
 
