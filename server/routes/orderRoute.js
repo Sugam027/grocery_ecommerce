@@ -13,6 +13,7 @@ orderRoute.get("/user/:userId", orderInstance.getUserOrders);
 orderRoute.post("/cod", authUser, orderInstance.orderCOD);
 orderRoute.post("/create", orderInstance.create);
 orderRoute.post("/session", orderInstance.storeOrderSession);
+orderRoute.put("/update/:id", orderInstance.updateOrderStatus);
 orderRoute.post("/verify-esewa", authUser, orderInstance.verifyEsewaAndConfirmOrder );
 
 export default orderRoute;

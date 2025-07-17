@@ -72,7 +72,8 @@ class categoryController {
   // PUT to update category name/slug
   async update(req, res) {
     try {
-      const { id, name } = req.body;
+      const id = req.params.id;
+      const { name } = req.body;
       const slug = slugify(name, { lower: true });
 
       let updatedData = { name, slug };

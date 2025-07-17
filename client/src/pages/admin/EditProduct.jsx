@@ -21,6 +21,9 @@ const EditProduct = () => {
   const [stock, setStock] = useState('');
   const [images, setImages] = useState([]);
 
+  const [errors, setErrors] = useState({});
+  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -61,6 +64,39 @@ const EditProduct = () => {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
+
+    const newErrors = {};
+
+    if (!name.trim()) newErrors.name = "Product name is required.";
+    if (!description.trim()) newErrors.description = "Description is required.";
+    if (!category) newErrors.category = "Please select a category.";
+    if (!price) newErrors.price = "Price is required.";
+    if (!offerPrice) newErrors.offerPrice = "Offer price is required.";
+    if (!stock) newErrors.stock = "Stock quantity is required.";
+    if (!rating) newErrors.rating = "Rating is required.";
+    if (!unit) newErrors.unit = "Unit is required.";
+
+    if (Number(price) <= 0) newErrors.price = "Price must be greater than 0.";
+    if (Number(offerPrice) < 0) newErrors.offerPrice = "Offer price can't be negative.";
+    if (Number(offerPrice) > Number(price)) newErrors.offerPrice = "Offer price can't be greater than actual price.";
+    if (Number(stock) < 0) newErrors.stock = "Stock can't be negative.";
+    if (Number(rating) < 0 || Number(rating) > 5) newErrors.rating = "Rating must be between 0 and 5.";
+
+    const validImages = images.filter(img => img);
+    if (validImages.length === 0) newErrors.images = "At least one image is required.";
+    validImages.forEach((img) => {
+        if (!img.type.startsWith("image/")) {
+        newErrors.images = "Only image files are allowed.";
+        }
+    });
+
+    if (Object.keys(newErrors).length > 0) {
+        setErrors(newErrors);
+        return;
+    }
+
+    setErrors({});
+
 
     const formData = new FormData();
     formData.append('name', name);

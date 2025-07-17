@@ -16,7 +16,7 @@ const Home = () => {
         <HeroSection />
         <Categories />
         <Discounts />
-        <section className='featured-section mt-4 md:mt-16 px-4 md:px-12 lg:px-16 xl:px-16 py-12 bg-[#F9F4F5]'>
+        <section className='featured-section mt-4 md:mt-16 px-4 md:px-12 lg:px-16 xl:px-16 py-12 bg-gray-50'>
           <p className='text-gray-600'>Products</p>
           <div className='flex justify-between items-center'>
             <p className='text-[32px] font-bold mt-2'>Featured <span className='text-[#4CB944]'>Products</span></p>
@@ -32,12 +32,12 @@ const Home = () => {
           <FeaturedProducts />
         </section>
 
-        <section className='featured-section mt-4 md:mt-16 px-4 md:px-12 lg:px-16 xl:px-16 py-4'>
+        {/* <section className='featured-section mt-4 md:mt-16 px-4 md:px-12 lg:px-16 xl:px-16 py-4'>
           <p className='text-gray-600'>Today Deals</p>
           <p className='text-[32px] font-bold mt-2'><span className='text-green-600'>Deals</span> of the Day</p>
           <Deals />          
 
-        </section>
+        </section> */}
         <DealBanner />
     </main>
   )

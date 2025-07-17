@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 
 const OrderDetails = () => {
   const { orderId } = useParams(); // assumes route like /order/:orderId
-  const { user, products } = useContextProvider();
+  const { user, products, navigate } = useContextProvider();
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -35,7 +35,8 @@ const OrderDetails = () => {
   if (!order) return <p className="text-center mt-10 text-red-500">Order not found.</p>;
 
   return (
-    <div className="px-6 py-8 max-w-3xl mx-auto">
+    <>
+    {/* <div className="px-6 py-8 max-w-3xl mx-auto">
       <h1 className="text-2xl font-semibold mb-4">Order Details</h1>
 
       <div className="bg-white shadow rounded-lg p-4 mb-6">
@@ -66,12 +67,69 @@ const OrderDetails = () => {
                 <p className="font-semibold">{product?.name || "Product"}</p>
                 <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
               </div>
-              <p>NPR {product?.offerPrice * item.quantity}</p>
+              <p>NPR {order.amount}</p>
             </div>
           );
         })}
       </div>
-    </div>
+    </div> */}
+
+    <div className="flex flex-col justify-between bg-white rounded-md mt-2 md:mt-2 px-4 md:px-12 lg:px-16 xl:px-16 py-4">
+      <p className='text-[32px] text-center font-bold mb-2'><span className='text-[#4CB944]'>Order</span> Details</p>
+      <div className="grid md:grid-cols-2 gap-6">
+        {/* Order Details */}
+        <div className="md:col-span-2 bg-gray-200 rounded-lg p-6">
+          <div className="flex justify-between mb-6">
+            <h3 className="text-lg font-semibold mb-4">Order Information</h3>
+            <button
+              onClick={() => navigate("/order")}
+              className="cursor-pointer bg-gray-400 py-[5px] px-[10px] rounded-md hover:bg-gray-300"
+            >
+              ← Back to Orders
+            </button>
+          </div>
+          <div className="grid grid-cols-2 gap-4 text-sm">
+            <p><strong>Order ID:</strong> {order._id}</p>
+            <p><strong>Total Amount:</strong> Rs. {order.amount}</p>
+            <p><strong>Customer:</strong> {order.userId?.name} ({order.userId?.email})</p>
+            <p><strong>Order Date:</strong> {new Date(order.createdAt).toDateString()}</p>
+            <p><strong>Payment Method:</strong> {order.paymentType}</p>
+            <p><strong>Current Payment Status:</strong> {order.isPaid ? "Paid" : "Pending"}</p>
+            <p><strong>Current Status:</strong> {order.status}</p>
+            <p><strong>Delivery Date:</strong> {order.deliveryDate ? new Date(order.deliveryDate).toDateString() : "N/A"}</p>
+          </div>
+
+          <div className="mt-6">
+            <h3 className="text-lg font-semibold mb-2">Items Ordered</h3>
+            {order.items.map((item, i) => (
+              <div
+                key={i}
+                className="flex justify-between items-center bg-gray-400 p-3 rounded mb-2"
+              >
+                <div>
+                  <p className="font-semibold">{item.product?.name}</p>
+                  <p className="text-sm">Qty: {item.quantity}</p>
+                </div>
+                <p className="text-right font-semibold">
+                  Rs. {item.product?.offerPrice * item.quantity}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-6">
+            <h3 className="text-lg font-semibold mb-2">Shipping Address</h3>
+            <p className="text-sm">
+              {order.addressId?.name}<br />
+              {order.addressId?.street}, {order.addressId?.municipality}<br />
+              {order.addressId?.city}, {order.addressId?.zip || ""}<br />
+              Nepal
+            </p>
+          </div>
+        </div>
+      </div>
+      </div>
+      </>
   );
 };
 

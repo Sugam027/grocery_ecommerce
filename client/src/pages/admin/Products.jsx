@@ -48,7 +48,7 @@ const Products = () => {
     <>
     <div className="flex justify-between align-center">
         <p>Products</p>
-        <p className='cursor-pointer bg-[#4CB944] py-[5px] px-[10px] rounded-md hover:bg-[#417B38]' onClick={() => navigate('/admin/products/create')}>Add Products</p>
+        <p className='cursor-pointer bg-[#4CB944] py-[5px] px-[10px] text-white rounded-md hover:bg-[#417B38]' onClick={() => navigate('/admin/products/create')}>Add Products</p>
     </div>
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Products List</h1>
@@ -89,8 +89,8 @@ const Products = () => {
                   </label>
                 </td> */}
                 <td className="p-3 space-x-2">
-                  <button className="text-blue-600 hover:underline" onClick={() => navigate(`/admin/products/edit/${product._id}`)}>Edit</button>
-                  <button className="text-red-600 hover:underline">Delete</button>
+                  <button className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600" onClick={() => navigate(`/admin/products/edit/${product._id}`)}>Edit</button>
+                  <button className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Delete</button>
                 </td>
               </tr>
             ))}

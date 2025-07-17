@@ -4,25 +4,25 @@ import API from '../../API';
 import toast from 'react-hot-toast';
 
 const Category = () => {
-  const { navigate, categories } = useContextProvider();
-//   const [categories, setCategories] = useState([]);
+  const { navigate } = useContextProvider();
+  const [categories, setCategories] = useState([]);
 
-//   const fetchCategories = async () => {
-//     try {
-//       const { data } = await API.get('/api/category');
-//       if (data.success) {
-//         setCategories(data.categories);
-//       } else {
-//         toast.error("Failed to fetch categories");
-//       }
-//     } catch (error) {
-//       toast.error("Server error while fetching categories");
-//     }
-//   };
+  const fetchCategories = async () => {
+    try {
+      const { data } = await API.get('/api/category');
+      if (data.success) {
+        setCategories(data.categories);
+      } else {
+        toast.error("Failed to fetch categories");
+      }
+    } catch (error) {
+      toast.error("Server error while fetching categories");
+    }
+  };
 
-//   useEffect(() => {
-//     fetchCategories();
-//   }, []);
+  useEffect(() => {
+    fetchCategories();
+  }, []);
 
   return (
     <>

@@ -53,7 +53,7 @@ const Card = ({ product }) => {
                 <p className='text-gray-500/60 md:text-sm text-xs'>{product.unit}</p>
                 <div className="flex items-end justify-between mt-3">
                     <p className="md:text-xl text-base font-medium text-[#4CB944]">
-                        ${product.offerPrice} <span className="text-gray-500/60 md:text-sm text-xs line-through">${product.price}</span>
+                        Rs.{product.offerPrice} <span className="text-gray-500/60 md:text-sm text-xs line-through">Rs.{product.price}</span>
                     </p>
                     <div className="text-[#4CB944]" onClick={(e) =>{e.stopPropagation();}}>
                         {!product.inStock ? (

@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useContextProvider } from '../context/AppContext'
 
 const Categories = () => {
     const {categories, navigate} = useContextProvider();
+   
   return (
     <>
     <section className='category-section mt-4 md:mt-16 px-4 md:px-12 lg:px-16 xl:px-16 py-4'>

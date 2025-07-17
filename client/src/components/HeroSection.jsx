@@ -5,7 +5,7 @@ const HeroSection = () => {
     const {navigate} = useContextProvider();
   return (
     <>
-        <div className="flex flex-col-reverse md:flex-row items-center justify-between px-4 md:px-12 lg:px-16 xl:px-16 bg-[#F9F4F5] py-4">
+        <div className="flex flex-col-reverse md:flex-row items-center justify-between px-4 md:px-12 lg:px-16 xl:px-16 bg-gray-50 py-4">
             <div className="max-w-lg max-md:mt-7">
                 <h1 className="font-bold text-5xl md:text-6xl text-black">
                     A marketplace for <span className="text-[#4CB944]">

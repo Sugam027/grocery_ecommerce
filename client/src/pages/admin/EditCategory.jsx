@@ -14,6 +14,12 @@ const EditCategory = () => {
   const [preview, setPreview] = useState("");
   const [id, setId] = useState("");
 
+  // Validation errors
+  const [errors, setErrors] = useState({
+    name: '',
+    image: ''
+  });
+
   useEffect(() => {
     const fetchCategory = async () => {
       try {
@@ -22,13 +28,12 @@ const EditCategory = () => {
           setName(data.category.name);
           setNewSlug(data.category.slug);
           setPreview(data.category.image);
-          setId(data.category._id)
+          setId(data.category._id);
         }
       } catch (error) {
         toast.error("Failed to load category");
       }
     };
-
     fetchCategory();
   }, [slug]);
 
@@ -36,15 +41,35 @@ const EditCategory = () => {
     setNewSlug(slugify(name));
   }, [name]);
 
+  const validate = () => {
+    const newErrors = { name: '', image: '' };
+    let isValid = true;
+
+    if (!name.trim()) {
+      newErrors.name = "Name is required";
+      isValid = false;
+    }
+
+    // Optional image validation
+    if (image && !image.type.startsWith("image/")) {
+      newErrors.image = "Only image files are allowed";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validate()) return;
+
     try {
       const formData = new FormData();
       formData.append("name", name);
       formData.append("slug", newSlug);
-      if (image) {
-        formData.append("image", image);
-      }
+      if (image) formData.append("image", image);
 
       const { data } = await API.put(`/api/category/update/${id}`, formData, {
         headers: { "Content-Type": "multipart/form-data" }
@@ -85,8 +110,8 @@ const EditCategory = () => {
             value={name}
             className="border border-gray-200 rounded w-full p-2 mt-1 outline-indigo-500"
             onChange={(e) => setName(e.target.value)}
-            required
           />
+          {errors.name && <p className="text-sm text-red-500 mt-1">{errors.name}</p>}
         </div>
 
         <div className="w-full">
@@ -105,10 +130,12 @@ const EditCategory = () => {
             type="file"
             accept="image/*"
             onChange={(e) => {
-              setImage(e.target.files[0]);
-              setPreview(URL.createObjectURL(e.target.files[0]));
+              const file = e.target.files[0];
+              setImage(file);
+              if (file) setPreview(URL.createObjectURL(file));
             }}
           />
+          {errors.image && <p className="text-sm text-red-500 mt-1">{errors.image}</p>}
           {preview && (
             <img src={preview} alt="Preview" className="mt-3 h-20 object-cover rounded" />
           )}

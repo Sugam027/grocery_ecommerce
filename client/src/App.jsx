@@ -31,12 +31,13 @@ import MyOrders from './pages/MyOrders';
 import EditCategory from './pages/admin/EditCategory';
 import EditProduct from './pages/admin/EditProduct';
 import AdminOrders from './pages/admin/Orders';
+import AdminOrderEdit from './pages/admin/editOrder';
 
 const App = () => {
-  const { showUserLogin } = useContextProvider();
-  const [isAdmin] = useState(() => {
-    return localStorage.getItem('isAdmin') === 'true';
-  });
+  const {isAdmin, showUserLogin } = useContextProvider();
+  // const [isAdmin] = useState(() => {
+  //   return localStorage.getItem('isAdmin') === 'true';
+  // });
   const loadingRef = useRef(null);
   const location = useLocation();
 
@@ -97,6 +98,7 @@ const App = () => {
           <Route path="products/edit/:id" element={<EditProduct />} />
           <Route path="category" element={<Category />} />
           <Route path="orders" element={<AdminOrders />} />
+          <Route path="orders/edit/:id" element={<AdminOrderEdit />} />
           {/* <Route path="order" element={<Category />} /> */}
           <Route path="category/create" element={<CreateCategory />} />
           <Route path="category/edit/:slug" element={<EditCategory />} />

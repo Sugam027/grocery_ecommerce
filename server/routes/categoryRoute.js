@@ -7,7 +7,7 @@ const categoryRoute = express.Router();
 const categoryInstance = new categoryController();
 
 categoryRoute.post("/", upload.single("image"), categoryInstance.store);
-categoryRoute.put("//update/:id", upload.single("image"), categoryInstance.update);
+categoryRoute.put("/update/:id", upload.single("image"), categoryInstance.update);
 categoryRoute.get("/", categoryInstance.index);
 categoryRoute.get("/check-slug/:slug", categoryInstance.checkSlug);
 categoryRoute.get("/slug/:slug", categoryInstance.categoryBySlug);

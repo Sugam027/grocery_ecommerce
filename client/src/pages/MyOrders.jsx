@@ -5,9 +5,28 @@ import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const MyOrders = () => {
-  const { user , navigate} = useContextProvider();
+  const {navigate} = useContextProvider();
   const [orders, setOrders] = useState([]);
+  const [user, setUser] = useState([]);
   const [loading, setLoading] = useState(true);
+
+
+    const fetchUser = async() =>{
+      try {
+        const {data} = await API.get('/api/user/is-auth')
+        if(data.success){
+          setUser(data.user);
+        }else{
+          setUser(false)
+        }
+      } catch (error) {
+        setUser(false)
+      }
+    }
+
+    useEffect(() =>{
+      fetchUser();
+    }, [])
 
   useEffect(() => {
     const fetchOrders = async () => {

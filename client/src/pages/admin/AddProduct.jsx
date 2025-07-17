@@ -17,6 +17,8 @@ const AddProduct = () => {
     const [unit, setUnit] = useState('');
     const [categories, setCategories] = useState([]);
 
+    const [errors, setErrors] = useState({});
+
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -43,7 +45,37 @@ const AddProduct = () => {
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
+        const newErrors = {};
 
+        if (!name.trim()) newErrors.name = "Product name is required.";
+        if (!description.trim()) newErrors.description = "Description is required.";
+        if (!category) newErrors.category = "Please select a category.";
+        if (!price) newErrors.price = "Price is required.";
+        if (!offerPrice) newErrors.offerPrice = "Offer price is required.";
+        if (!stock) newErrors.stock = "Stock quantity is required.";
+        if (!rating) newErrors.rating = "Rating is required.";
+        if (!unit) newErrors.unit = "Unit is required.";
+
+        if (Number(price) <= 0) newErrors.price = "Price must be greater than 0.";
+        if (Number(offerPrice) < 0) newErrors.offerPrice = "Offer price can't be negative.";
+        if (Number(offerPrice) > Number(price)) newErrors.offerPrice = "Offer price can't be greater than actual price.";
+        if (Number(stock) < 0) newErrors.stock = "Stock can't be negative.";
+        if (Number(rating) < 0 || Number(rating) > 5) newErrors.rating = "Rating must be between 0 and 5.";
+
+        const validImages = images.filter(img => img);
+        if (validImages.length === 0) newErrors.images = "At least one image is required.";
+        validImages.forEach((img) => {
+            if (!img.type.startsWith("image/")) {
+            newErrors.images = "Only image files are allowed.";
+            }
+        });
+
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+            return;
+        }
+
+        setErrors({});
         // if (!name || !description || !category || !price || !offerPrice || !rating || images.length === 0) {
         // toast.error("All fields are required!");
         // return;
@@ -60,7 +92,7 @@ const AddProduct = () => {
         formData.append('unit', unit);
         formData.append('inStock', Number(stock) > 0);
         
-        images.forEach((img) => {
+        validImages.forEach((img) => {
         if (img) formData.append('images', img); // must match your multer field name
         });
 
@@ -86,10 +118,10 @@ const AddProduct = () => {
     return (
     <>
         <div className="flex justify-between align-center">
-            <p>New Product</p>
+            <p className='text-[20px] font-bold'>New Product</p>
             <p className='cursor-pointer bg-gray-200 py-[5px] px-[10px] rounded-md hover:bg-grey-300' onClick={() => navigate('/admin/products')}>Back</p>
         </div>
-        <div className="py-10 flex flex-col justify-between bg-white">
+        <div className="py-5 px-2 mt-2 flex flex-col justify-between bg-white rounded-md">
             <form onSubmit={onSubmitHandler} className="space-y-6" encType="multipart/form-data">
                 {/* Image Upload */}
                 <div>
@@ -115,6 +147,7 @@ const AddProduct = () => {
                     </label>
                     ))}
                 </div>
+                    {errors.images && <p className="text-red-500 text-sm mt-1">{errors.images}</p>}
                 </div>
 
                 {/* Product Name */}
@@ -126,8 +159,9 @@ const AddProduct = () => {
                     placeholder="Enter product name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    required
+                    
                 />
+                {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
                 </div>
 
                 {/* Description */}
@@ -139,8 +173,9 @@ const AddProduct = () => {
                     placeholder="Enter product description"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    required
+                    
                 />
+                {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description}</p>}
                 </div>
 
                 {/* Category */}
@@ -150,13 +185,14 @@ const AddProduct = () => {
                     className="w-full border border-gray-300 rounded px-3 py-2"
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    required
+                    
                 >
                     <option value="">Select category</option>
                     {categories.map((cat) => (
                     <option key={cat._id} value={cat._id}>{cat.name}</option>
                     ))}
                 </select>
+                {errors.category && <p className="text-red-500 text-sm mt-1">{errors.category}</p>}
                 </div>
 
                 {/* Price, Offer Price, Rating, Stock */}
@@ -169,8 +205,8 @@ const AddProduct = () => {
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
                     placeholder="0"
-                    required
                     />
+                    {errors.price && <p className="text-red-500 text-sm mt-1">{errors.price}</p>}
                 </div>
                 <div className="flex flex-col gap-1 max-w-md">
                     <label className="text-base font-medium" htmlFor="unit">Unit</label>
@@ -181,8 +217,9 @@ const AddProduct = () => {
                         className="outline-none md:py-2.5 py-2 px-3 rounded border border-gray-500/40"
                         value={unit}
                         onChange={(e) => setUnit(e.target.value)}
-                        required
+                        
                     />
+                    {errors.unit && <p className="text-red-500 text-sm mt-1">{errors.unit}</p>}
                 </div>
                 <div>
                     <label className="block font-medium mb-1">Offer Price</label>
@@ -192,8 +229,9 @@ const AddProduct = () => {
                     value={offerPrice}
                     onChange={(e) => setOfferPrice(e.target.value)}
                     placeholder="0"
-                    required
+                    
                     />
+                    {errors.offerPrice && <p className="text-red-500 text-sm mt-1">{errors.offerPrice}</p>}
                 </div>
                 <div>
                     <label className="block font-medium mb-1">Rating</label>
@@ -206,8 +244,9 @@ const AddProduct = () => {
                     value={rating}
                     onChange={(e) => setRating(e.target.value)}
                     placeholder="0"
-                    required
+                    
                     />
+                    {errors.rating && <p className="text-red-500 text-sm mt-1">{errors.rating}</p>}
                 </div>
                 <div>
                     <label className="block font-medium mb-1">Stock</label>
@@ -217,8 +256,9 @@ const AddProduct = () => {
                     value={stock}
                     onChange={(e) => setStock(e.target.value)}
                     placeholder="0"
-                    required
+                    
                     />
+                    {errors.stock && <p className="text-red-500 text-sm mt-1">{errors.stock}</p>}
                 </div>
                 </div>
 

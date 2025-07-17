@@ -40,6 +40,13 @@ const Navbar = () => {
         }
     };
 
+    const currentPath = window.location.pathname;
+
+    const linkClasses = (path) =>
+    `px-3 py-2 transition-all duration-200 hover:text-green-600 ${
+        currentPath === path ? "text-green-700 font-semibold border-b-2 border-green-500" : ""
+    }`;
+
   return (
     <>
     <nav className="flex items-center justify-between px-4 md:px-12 lg:px-16 xl:px-16 py-4 border-b border-gray-300 bg-white relative transition-all">
@@ -112,10 +119,6 @@ const Navbar = () => {
             <div className={`${open ? 'flex' : 'hidden'} absolute top-[60px] left-0 w-full bg-white shadow-md py-4 flex-col items-start gap-2 px-5 text-sm md:hidden`}>
                 <a href="/" className="block">Home</a>
                 <a href="/shop" className="block">Shop</a>
-                <a href="/shop" className="block">Shop</a>
-                <a href="/shop" className="block">Shop</a>
-                <a href="/shop" className="block">Shop</a>
-                <a href="/shop" className="block">Shop</a>
                 {user ? (
                 <div className="relative group cursor-pointer">
                     <div onClick={() => setDropdownOpen(!dropdownOpen)}>
@@ -140,17 +143,17 @@ const Navbar = () => {
             </div>
 
     </nav>
-    <nav className="flex items-center justify-center px-4 md:px-12 lg:px-16 xl:px-16 py-4 border-b border-gray-300 bg-white relative transition-all">
-        <div className="flex items-center gap-8">
-            <a href="/">Home</a>
-            <a href="/shop">Shop</a>
-            <a href="/products/vegetables">Vegetables</a>
-            <a href="/products/fruits">Fruits</a>
-            <a href="/products/bakery-and-dairy">Bakery & Dairy</a>
-            <a href="/products/cooking-oil">Cooking oil</a>
-            <a href="/products/biscuits-and-coolies">Biscuits & Cookies</a>
-            <a href="/products/fruits-juice">Fruits juice</a>
-        </div>
+    <nav className="flex items-center justify-between px-4 md:px-12 lg:px-16 xl:px-16 py-4 border-b border-gray-300 bg-white relative transition-all">
+        {/* <div className="flex items-center justify-between"> */}
+            <a href="/" className={linkClasses("/")}>Home</a>
+            <a href="/shop" className={linkClasses("/shop")}>Shop</a>
+            <a href="/products/vegetables" className={linkClasses("/products/vegetables")}>Vegetables</a>
+            <a href="/products/fruits" className={linkClasses("/products/fruits")}>Fruits</a>
+            <a href="/products/bakery-and-dairy" className={linkClasses("/products/bakery-and-dairy")}>Bakery & Dairy</a>
+            <a href="/products/cooking-oil" className={linkClasses("/products/cooking-oil")}>Cooking oil</a>
+            <a href="/products/biscuits-and-coolies" className={linkClasses("/products/biscuits-and-coolies")}>Biscuits & Cookies</a>
+            <a href="/products/fruits-juice" className={linkClasses("/products/fruits-juice")}>Fruits juice</a>
+        {/* </div> */}
     </nav>
     
 

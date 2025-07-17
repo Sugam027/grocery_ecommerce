@@ -10,6 +10,7 @@ const CreateCategory = () => {
   const [slug, setSlug] = useState('');
   const [slugExists, setSlugExists] = useState(false);
   const [image, setImage] = useState(null);
+  const [errors, setErrors] = useState({ name: '', image: '' });
 
   useEffect(() => {
     const newSlug = slugify(name);
@@ -22,18 +23,33 @@ const CreateCategory = () => {
     }
   }, [name]);
 
-  const onSubmitHandler = async (e) => {
-    e.preventDefault();
+  const validateForm = () => {
+    const newErrors = { name: '', image: '' };
+    let isValid = true;
+
+    if (!name.trim()) {
+      newErrors.name = 'Category name is required';
+      isValid = false;
+    }
 
     if (slugExists) {
-      toast.error("Category with this name already exists!");
-      return;
+      newErrors.name = 'Category with this name already exists';
+      isValid = false;
     }
 
     if (!image) {
-      toast.error("Please select an image");
-      return;
+      newErrors.image = 'Please upload an image';
+      isValid = false;
     }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
+  const onSubmitHandler = async (e) => {
+    e.preventDefault();
+
+    if (!validateForm()) return;
 
     const formData = new FormData();
     formData.append('name', name);
@@ -74,6 +90,7 @@ const CreateCategory = () => {
         className="flex flex-col gap-4 mt-5 p-6 rounded-lg shadow-xl border border-gray-200 bg-white"
         encType="multipart/form-data"
       >
+        {/* Name Field */}
         <div className="w-full">
           <label className="block text-sm font-medium text-gray-700">Name</label>
           <input
@@ -82,10 +99,12 @@ const CreateCategory = () => {
             placeholder="Enter category name"
             className="border border-gray-200 rounded w-full p-2 mt-1 outline-indigo-500"
             type="text"
-            required
+            
           />
+          {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
         </div>
 
+        {/* Slug Field */}
         <div className="w-full">
           <label className="block text-sm font-medium text-gray-700">Slug</label>
           <input
@@ -96,6 +115,7 @@ const CreateCategory = () => {
           />
         </div>
 
+        {/* Image Field */}
         <div className="w-full">
           <label className="block text-sm font-medium text-gray-700">Image</label>
           <input
@@ -103,8 +123,9 @@ const CreateCategory = () => {
             accept="image/*"
             onChange={(e) => setImage(e.target.files[0])}
             className="border border-gray-200 rounded w-full p-2 mt-1"
-            required
+            
           />
+          {errors.image && <p className="text-red-500 text-sm mt-1">{errors.image}</p>}
         </div>
 
         <button

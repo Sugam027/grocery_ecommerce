@@ -47,7 +47,7 @@ class orderController {
             const id = req.params.id;
             const orders = await Order.findById(
                 id
-            ).populate("items addressId");
+            ).populate("userId items.product addressId");
             res.json({success: true, orders});
         } catch (error) {
             console.log(error.message)
@@ -188,7 +188,7 @@ console.log("Updating order with transaction_uuid:", transaction_uuid);
     //   console.log(transaction_uuid)
       await Order.updateOne(
         { transaction_uuid },
-        { $set: { isPaid: true, status: "Confirmed" } }
+        { $set: { isPaid: true} }
       );
       return res.json({ success: true });
     // } else {
@@ -205,6 +205,7 @@ async getUserOrders(req, res){
     const { userId } = req.params;
 
     const orders = await Order.find({ userId })
+      .populate('userId')  // populate product details
       .populate('items.product')  // populate product details
       .populate('addressId');     // populate address if needed
 
@@ -221,6 +222,26 @@ async getUserOrders(req, res){
   }
 };
 
+async updateOrderStatus(req, res) {
+  try {
+    const { status, deliveryDate } = req.body;
+    const { id } = req.params;
+
+    const update = {
+      ...(status && { status }),
+      ...(deliveryDate && { deliveryDate: new Date(deliveryDate) })
+    };
+
+    const result = await Order.findByIdAndUpdate(id, update, { new: true });
+
+    if (!result) return res.status(404).json({ success: false, message: "Order not found" });
+
+    return res.json({ success: true, order: result });
+  } catch (error) {
+    console.error("Failed to update order:", error);
+    return res.status(500).json({ success: false, message: "Server error" });
+  }
+}
 
     
 

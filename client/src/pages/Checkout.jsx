@@ -5,9 +5,10 @@ import API from '../API';
 import { v4 as uuidv4 } from 'uuid';
 
 const Checkout = () => {
-  const { user, cartItems, getCartAmount, navigate } = useContextProvider();
+  const { user, cartItems, setCartItems, getCartAmount, navigate } = useContextProvider();
   const [paymentType, setPaymentType] = useState('');
   const [addressId, setAddressId] = useState(null);
+  const [errors, setErrors] = useState({});
 
   const [formData, setFormData] = useState({
     name: '',
@@ -21,11 +22,41 @@ const Checkout = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
+    } else if (!/^[A-Za-z\s]+$/.test(formData.name)) {
+      newErrors.name = "Name can only contain letters";
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Invalid email format";
+    }
+
+    if (!formData.city.trim()) newErrors.city = "City is required";
+    if (!formData.municipality.trim()) newErrors.municipality = "Municipality is required";
+    if (!formData.street.trim()) newErrors.street = "Street is required";
+
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Phone number is required";
+    } else if (!/^[0-9]{7,10}$/.test(formData.phone)) {
+      newErrors.phone = "Invalid phone number";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSaveAddress = async (e) => {
     e.preventDefault();
-
+    if (!validateForm()) return;
     try {
       const res = await API.post('/api/address/store', {
         ...formData,
@@ -114,6 +145,7 @@ const Checkout = () => {
 
       if (res.data.success) {
         toast.success("Order placed successfully!");
+        setCartItems([]);
         navigate('/order/success');
       } else {
         toast.error("Order failed");
@@ -138,6 +170,7 @@ const Checkout = () => {
           amount: getCartAmount(),
           transaction_uuid
         }));
+        setCartItems([])
 
         navigate('/cart/order/payment'); // Go to payment form
       } else {
@@ -163,12 +196,14 @@ const Checkout = () => {
                   type={field === "email" ? "email" : "text"}
                   id={field}
                   name={field}
-                  required
                   value={formData[field]}
                   onChange={handleChange}
                   placeholder={field === "email" ? "you@example.com" : `Enter ${field}`}
                   className="w-full px-3 py-2 text-gray-500 placeholder-gray-500 text-sm outline-none bg-gray-100 border border-gray-300/80 h-10 rounded-[10px]"
                 />
+                {errors[field] && (
+                  <p className="text-red-500 text-xs mt-1">{errors[field]}</p>
+                )}
               </div>
             ))}
             <button
